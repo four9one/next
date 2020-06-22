@@ -3,18 +3,20 @@
 
 require("dotenv").config();
 // require("dotenv").config();
-// console.log(process.env.NODE_ENV);
 const mongoose = require("mongoose");
 const express = require("express");
 const indexRouter = require("./routes/index");
 
 const app = express();
 
-mongoose.connect(process.env.ATLAS_URI, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  "mongodb+srv://admin:admin123@next-server-s2yko.gcp.mongodb.net/server?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  }
+);
 const db = mongoose.connection;
 
 db.on("error", (error) => {
@@ -26,5 +28,7 @@ db.once("open", () => {
 
 app.use(express.json());
 app.use("/", indexRouter);
+
+// console.log(process.env.PORT);
 
 app.listen(process.env.PORT || 5555);
